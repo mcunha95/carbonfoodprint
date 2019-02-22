@@ -1,6 +1,6 @@
 "ID","Food","Category","Serving.Size","Calories.per.Serving","Grams.CO2e.per.Serving","Grams.CO2e.per.kcal"
 "1","banana","Fruit",140,112,738.4,3.7
-"2","almonds","Nut/Seed/Legume",30,172,166.1,1
+"2","almond","Nut/Seed/Legume",30,172,166.1,1
 "3","apple","Fruit",140,80,106.7,1.3
 "4","apricot","Fruit",140,67,77.4,1.2
 "5","artichokes","Vegetable",85,40,208.1,5.2
