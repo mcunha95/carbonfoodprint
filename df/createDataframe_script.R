@@ -44,8 +44,18 @@ for (i in 1:dim(Food_df)[1]){
       column_foods[i] <- "lettuce"  
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "grapefruit")){
       column_foods[i] <- "grapefruit"
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "bacon")){
+      column_foods[i] <- "pork"
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "sausage")){
+      column_foods[i] <- "pork"
+    } else if(str_detect(tolower(Food_df$Foodex_L2[i]), "fish")){
+        column_foods[i] <- "fish"
+    } else if(str_detect(tolower(Food_df$Foodex_L2[i]), "omelette")){
+          column_foods[i] <- "egg"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "butter") & str_detect(tolower(Food_df$Foodex_L3[i]), "milk")){
       column_foods[i] <- "milk"  
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "fries")){
+      column_foods[i] <- "potato"  
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "butterkase")){
       column_foods[i] <- "cheese" 
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "reggiano")){
@@ -129,4 +139,8 @@ CO2$Price.per.Serving <- NULL
 #Save CSV
 write.csv(CleanFoodData, file = "CleanFoodData.csv", row.names=FALSE)
 write.csv(CO2, file = "CO2Footprint.csv", row.names=FALSE)
+
+
+
+
 
