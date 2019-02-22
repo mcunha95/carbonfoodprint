@@ -50,7 +50,7 @@ for (i in 1:dim(Food_df)[1]){
       column_foods[i] <- "pork"
     } else if(str_detect(tolower(Food_df$Foodex_L2[i]), "fish")){
         column_foods[i] <- "fish"
-    } else if(str_detect(tolower(Food_df$Foodex_L2[i]), "omelette")){
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "omelette")){
           column_foods[i] <- "egg"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "butter") & str_detect(tolower(Food_df$Foodex_L3[i]), "milk")){
       column_foods[i] <- "milk"  
