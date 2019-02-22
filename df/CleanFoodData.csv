@@ -1,4 +1,4 @@
-"Country","Pop_Class","Food","ID","Nr_Consumer","Mean"
+"Country","Pop_Class","Food","FoodId","Nr_Consumer","Mean"
 "Austria","Adults","banana","1","105","108.928571428571"
 "Austria","Adults","apple","3","213","131.306338028169"
 "Austria","Adults","apricot","4","7","53.2142857142857"
