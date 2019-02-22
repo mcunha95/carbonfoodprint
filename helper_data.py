@@ -6,16 +6,21 @@ def readData(filename):
     return df
 
 def getFoodCategories():
-    df = readData("CarbonEmissionsPerServing.csv")
+    df = readData("df/CO2Footprint.csv")
     foodCategories = list(df['Category'].unique())
     return [{'label': foodCategory, 'value': foodCategory} for foodCategory in foodCategories]
 
 def getFoodItems():
-    df = readData("CarbonEmissionsPerServing.csv")
+    df = readData("df/CO2Footprint.csv")
     foodItems = list(df['Food'].unique())
     return [{'label': foodItem, 'value': foodItem} for foodItem in foodItems]
 
 def getAgeGroups():
-    df = readData("CleanFoodData.csv")
+    df = readData("df/CleanFoodData.csv")
     ageGroups = list(df['Pop_Class'].unique())
     return [{'label': ageGroup, 'value': ageGroup} for ageGroup in ageGroups]
+
+def getCountries():
+    df = readData("df/CleanFoodData.csv")
+    countries = list(df.index.unique())
+    return [{'label': country, 'value': country} for country in countries]

@@ -15,6 +15,14 @@ app.layout = html.Div(children=[
         width=200,
         height=200),
     html.Div(children=[
+        html.H3('What country do you want to check?'),
+        dcc.Dropdown(
+            id='country',
+            options=helper_data.getCountries(),
+            value='Belgium'
+        )
+    ]),
+    html.Div(children=[
         html.H3('What age group are you in?'),
         dcc.Dropdown(
             id='age-groups',
