@@ -24,3 +24,9 @@ def getCountries():
     df = readData("df/CleanFoodData.csv")
     countries = list(df.index.unique())
     return [{'label': country, 'value': country} for country in countries]
+
+def getFoodCategoryNames():
+    return ['x','y','z']
+
+def getFoodsInCategory(category):
+    return ['a','b','c']
