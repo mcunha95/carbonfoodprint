@@ -49,9 +49,9 @@ for (i in 1:dim(Food_df)[1]){
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "sausage")){
       column_foods[i] <- "pork"
     } else if(str_detect(tolower(Food_df$Foodex_L2[i]), "fish")){
-        column_foods[i] <- "fish"
+      column_foods[i] <- "fish"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "omelette")){
-          column_foods[i] <- "egg"
+      column_foods[i] <- "egg"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "butter") & str_detect(tolower(Food_df$Foodex_L3[i]), "milk")){
       column_foods[i] <- "milk"  
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "fries")){
@@ -74,6 +74,12 @@ for (i in 1:dim(Food_df)[1]){
       column_foods[i] <- "coffee"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "wheat coffee")){
       column_foods[i] <- "wheat"
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "liquorice")){
+      column_foods[i] <- NA
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "pigeon")){
+      column_foods[i] <- NA
+    } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "egg plant")){
+      column_foods[i] <- "eggplant"
     } else if(str_detect(tolower(Food_df$Foodex_L3[i]), "ham")){
       if (str_detect(toString(foods_str[str_detect(tolower(Food_df$Foodex_L3[i]), foods_str)]), "pork")){
         column_foods[i] <- toString(foods_str[str_detect(tolower(Food_df$Foodex_L3[i]), foods_str)])
@@ -86,6 +92,50 @@ for (i in 1:dim(Food_df)[1]){
       }
     } else {
       column_foods[i] <- toString(foods_str[str_detect(tolower(Food_df$Foodex_L3[i]), foods_str)])
+    }
+    
+    if(!is.na(column_foods[i])){
+      if (str_detect(column_foods[i] , "pork")){
+        column_foods[i] <- gsub("pig, ","",column_foods[i])
+        column_foods[i] <- gsub("pig","",column_foods[i])
+      }else{
+        column_foods[i] <- gsub("pig","pork",column_foods[i])
+      }
+    }
+    
+  }
+  #Wheat
+  if (str_detect(tolower(Food_df$Foodex_L3[i]), "bread") | str_detect(tolower(Food_df$Foodex_L3[i]), "pasta") | str_detect(tolower(Food_df$Foodex_L3[i]), "noodle") | str_detect(tolower(Food_df$Foodex_L3[i]), "cereal") | str_detect(tolower(Food_df$Foodex_L3[i]), "cake")){
+    if (is.na(column_foods[i])){
+      column_foods[i] <- "wheat"
+    } else if (!str_detect(column_foods[i], "wheat")){
+      paste(column_foods[i], ", wheat")
+    }
+  }
+  #French fries
+  if(is.na(column_foods[i])){
+    #French fries
+    if(str_detect(tolower(Food_df$Foodex_L3[i]), "fries")){
+      column_foods[i] <- "potato"  
+    }
+    #Fish
+    if(str_detect(tolower(Food_df$Foodex_L2[i]), "fish")){
+      column_foods[i] <- "fish"
+    }
+    #Chicken
+    if(str_detect(tolower(Food_df$Foodex_L3[i]), "poultry")){
+      column_foods[i] <- "chicken"
+    }
+    #Pork
+    if(str_detect(tolower(Food_df$Foodex_L3[i]), "bacon")){
+      column_foods[i] <- "pork"
+    }
+    if(str_detect(tolower(Food_df$Foodex_L3[i]), "sausage")){
+      column_foods[i] <- "pork"
+    }
+    #Egg
+    if(str_detect(tolower(Food_df$Foodex_L3[i]), "omelette")){
+      column_foods[i] <- "egg"
     }
   }
 }
@@ -111,7 +161,7 @@ for (country in countries){
     for (food in foods_str){
       df_temp <- filter(df_aux, Country == country & Pop_Class == pop & str_detect(column_foods, food))
       if (sum(df_temp$Nr_Consumer) != 0){
-        mean <- sum(df_temp$Nr_Consumer*df_temp$Mean)/sum(df_temp$Nr_Consumer)
+        mean <- sum(as.numeric(df_temp$`%_Consumers`)*as.numeric(df_temp$Mean))
         CleanFoodData <- rbind(CleanFoodData ,c(country, pop, food, sum(df_temp$Nr_Consumer),mean, CO2$Serving.Size[which(CO2$Food==food)],CO2$Grams.CO2e.per.Serving[which(CO2$Food==food)]))
       }
     }
@@ -127,6 +177,7 @@ for (i in row.names(CO2)){
 CleanFoodData<- add_column(CleanFoodData, ID, .after = "Food")
 CleanFoodData$CO2_Per_Serving <- NULL
 CleanFoodData$Serving_Size <- NULL
+CleanFoodData$Nr_Consumer <- NULL
 
 #Clean CO2 df
 ID <- row.names(CO2)
@@ -139,8 +190,4 @@ CO2$Price.per.Serving <- NULL
 #Save CSV
 write.csv(CleanFoodData, file = "CleanFoodData.csv", row.names=FALSE)
 write.csv(CO2, file = "CO2Footprint.csv", row.names=FALSE)
-
-
-
-
 
