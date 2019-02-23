@@ -65,7 +65,6 @@ def legend_map_func(filtered_df):
 
 def euro_map(filtered_df):
     #scl = [[0.0, 'rgb(242,240,247)'],[0.2, 'rgb(218,218,235)'],[0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],[0.8, 'rgb(117,107,177)'],[1.0, 'rgb(84,39,143)']]
-
     legend_map = legend_map_func(filtered_df)
     txt = []
     for country in filtered_df['Country'].values:
@@ -119,7 +118,8 @@ def generateDropDown(categoryName, food_items_only_per_category):
     return dcc.Dropdown(
         id='dropdown-' + categoryName,
         options=[{'label': item, 'value': item} for item in food_items_only_per_category],
-        multi=True
+        multi=True,
+        style={'marginLeft': 15, 'marginRight': 15, 'width': '600px'}
     )
 
 
@@ -128,6 +128,7 @@ def generateSlider(itemName, categoryName):
         id='slider-container-' + categoryName + '-' + itemName,
         children=[
             html.H5(itemName),
+            html.P("(Servings per week)"),
             html.H5(id='slider-value-box-' + categoryName + '-' + itemName),
             dcc.Slider(
                 id='slider-' + categoryName + '-' + itemName,
@@ -191,9 +192,9 @@ app.layout = html.Div(children=[
             #Tab one
             ################################################################################
 
-            dcc.Tab(label='Data', children = [
+            dcc.Tab(label='Calculate my CO2 footprint', children = [
                         html.Div(children=[
-                            html.H3('What country do you want to check?',
+                            html.H3('What country do you want to check?', 
                                 style={'marginLeft': 30, 'marginRight': 30, 'marginTop': 10}),
                             dcc.Dropdown(
                                 id='country',
@@ -203,7 +204,7 @@ app.layout = html.Div(children=[
                             )
                         ]),
                         html.Div(children=[
-                            html.H3('What age group are you in?',
+                            html.H3('What age group are you in?', 
                                 style={'marginLeft': 30, 'marginRight': 30}),
                             dcc.Dropdown(
                                 id='age-group',
@@ -224,22 +225,26 @@ app.layout = html.Div(children=[
             #Tab two
             ################################################################################
 
-            dcc.Tab(label='Graph', children =[
+            dcc.Tab(label='Explore Europe', children =[
+
+                    # Row: Filter
+                    html.Div(children=[
+                        html.H4('What age group are you in?', style={'marginLeft': 30}),
+                        dcc.Dropdown(
+                            id='age-groups-map',
+                            options=helper_data.get_all_age_groups(),
+                            value='Adults',
+                            style={'marginLeft': 30, 'marginRight': 0, 'width': '200px'}
+                        )
+                    ]),
 
                     #Code in tab
                     html.Div([
                         # Column: Map
                         dcc.Graph(id="euro-map")
-                    ], className="row"),
-                    # Row: Filter
-                    html.Div(children=[
-                        html.H4('What age group are you in?'),
-                        dcc.Dropdown(
-                            id='age-groups-map',
-                            options=helper_data.get_all_age_groups(),
-                            value='Adults'
-                        )
-                    ]),
+                    ],
+                    className="row"),
+
                     #Code in tab
 
                 ], className = "six columns"),
@@ -275,21 +280,28 @@ def generateGraph(country, ageGroup, *args):
             id='country-person-graph-agg',
             figure={
                 'data': [
-                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'], 'type': 'bar', 'name': 'You'},
+                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'],  'type': 'bar'},
                 ],
                 'layout': {
-                    'title': 'Comparison with your country'
+                    'title': 'My CO2 production/food group',
+                    'yaxis':{
+                     'title':'CO2 footprint [grams]'
+                    }
                 }
-            }
+            },
+            style={'marginLeft': 30, 'marginRight': 30, 'maxwidth': '600px'}
         ),
         dcc.Graph(
             id='country-person-graph',
             figure={
                 'data': [
-                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
+                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'width': [0.8] },
                 ],
                 'layout': {
-                    'title': 'Comparison with your country'
+                    'title': 'My CO2 production/food',
+                    'yaxis':{
+                     'title':'CO2 footprint [grams]'
+                    }
                 }
             }
         )
@@ -377,7 +389,7 @@ def get_my_carbon_food_print(country, age_group, *args):
         html.Div([
             daq.Gauge(
                 id='my-gauge',
-                label='Your CO2 food print',
+                label='Your weekly CO2 food print',
                 max=100000,
                 value=my_carbon_food_print,
                 min=0)
@@ -385,7 +397,7 @@ def get_my_carbon_food_print(country, age_group, *args):
         html.Div([
             daq.Gauge(
                 id='country-gauge',
-                label=country + ' ' + age_group.lower() + ' CO2 food print',
+                label=country + ' ' + age_group.lower() + ' weekly CO2 food print',
                 max=100000,
                 value=country_food_print,
                 min=0)
