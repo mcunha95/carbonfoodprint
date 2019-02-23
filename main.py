@@ -18,7 +18,8 @@ oil_category = 'Oil'
 dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
-
+all_keys = helper_data.get_food_category_and_item_dictionary()
+slider_keys = helper_data.get_slider_box_keys()
 
 
 # Read the data.
@@ -117,7 +118,7 @@ def euro_map(filtered_df):
 def generateDropDown(categoryName):
     return dcc.Dropdown(
         id='dropdown-' + categoryName,
-        options=[{'label': item, 'value': item} for item in helper_data.get_food_items('', '', categoryName)],
+        options=[{'label': item, 'value': item} for item in helper_data.get_food_items_only_per_category(categoryName)],
         multi=True,
     )
 
@@ -141,7 +142,7 @@ def generateSlider(itemName, categoryName):
 
 def generateSliderArea(categoryName):
     return html.Div(
-        children=[generateSlider(item, categoryName) for item in helper_data.get_food_items('', '', categoryName)],
+        children=[generateSlider(item, categoryName) for item in helper_data.get_food_items_only_per_category(categoryName)],
             style={'marginLeft': 30, 'marginRight': 30, 'width': '200px'})
 
 
@@ -213,7 +214,8 @@ app.layout = html.Div(children=[
                         html.Div(children=[
                             generateCategorySection(category)
                             for category in helper_data.get_food_categories()
-                        ])
+                        ]),
+                        html.Div(id='live-graph')
                 ], className = "six columns"),
 
             ################################################################################
@@ -246,6 +248,52 @@ app.layout = html.Div(children=[
  
 ])
 
+@app.callback(
+    Output(component_id='live-graph',component_property='children'),
+    [
+        Input('country','value'),
+        Input('age-group','value')
+    ]+
+    [
+        Input(sliderValueId, 'value') for sliderValueId in slider_keys
+    ]
+)
+def generateGraph(country, ageGroup, *args):
+    newDict = {}
+    food_categories = helper_data.get_food_categories()
+    i = 0
+    for category in food_categories:
+        newDict[category] = {}
+        for item in all_keys[category]:
+            newDict[category][item]=args[i]
+            i+=1
+    # from here we need to take the new dict and generate the graphs
+    dataArrays=helper_data.generate_data_arrays(newDict)
+    return html.Div(children=[
+        dcc.Graph(
+            id='country-person-graph-agg',
+            figure={
+                'data': [
+                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'], 'type': 'bar', 'name': 'You'},
+                ],
+                'layout': {
+                    'title': 'Comparison with your country'
+                }
+            }
+        ),
+        dcc.Graph(
+            id='country-person-graph',
+            figure={
+                'data': [
+                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
+                ],
+                'layout': {
+                    'title': 'Comparison with your country'
+                }
+            }
+        )
+        ]) 
+            
 
 @app.callback(
     Output('euro-map', 'figure'),
@@ -277,7 +325,7 @@ for category in helper_data.get_food_categories():
     )
     def resetOptionsAgeChange(ageGroup,country, categoryId):
         categoryName=categoryId.split('-')[-1]
-        return helper_data.get_dictionary_for_dash(helper_data.get_food_items(country, ageGroup, categoryName))
+        return helper_data.get_food_items(country, ageGroup, categoryName)
     
     @app.callback(
         Output('dropdown-'+category,'value'),
@@ -290,7 +338,7 @@ for category in helper_data.get_food_categories():
 
 
 for category in helper_data.get_food_categories():
-    for item in helper_data.get_food_items('', '', category):
+    for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-value-box-' + category + '-' + item, 'children'),
             [
@@ -301,7 +349,7 @@ for category in helper_data.get_food_categories():
             return inputValue
 
 for category in helper_data.get_food_categories():
-    for item in helper_data.get_food_items('', '', category):
+    for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-container-' + category + '-' + item, 'style'),
             [

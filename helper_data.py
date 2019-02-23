@@ -46,3 +46,42 @@ def get_food_items_only_per_category(category):
 
 def get_dictionary_for_dash(series):
     return [{'label': item, 'value': item} for item in series]
+
+
+def get_food_category_and_item_dictionary():
+    newDict = {}
+    food_categories = get_food_categories()
+    for category in food_categories:
+        newDict[category] = get_food_items_only_per_category(category)
+    return newDict
+    
+def get_slider_box_keys():
+    keys = []
+    categories = get_food_categories()
+    for category in categories:
+        subList = get_food_items_only_per_category(category)
+        structuredSubList = ['slider-'+category+'-'+foodItem for foodItem in subList]
+        keys = keys + structuredSubList
+    return keys
+
+
+
+def generate_data_arrays(consumption_dict):
+    df = read_data("df/CO2Footprint.csv")
+    data_arrays = {
+        'your_food_choices_categories':[],
+        'your_food_choices_item':[],
+        'your_food_choices_emissions':[],
+        'your_food_choices_all_categories': list(consumption_dict.keys()),
+        'your_food_choices_aggregated_emissions':[0]*len(consumption_dict.keys())
+    }
+    for category in consumption_dict.keys():
+        for item in consumption_dict[category].keys():
+            if consumption_dict[category][item] != 0:
+                food_item = df[df['Food']==item]
+                emission =  consumption_dict[category][item]*list(food_item['Grams.CO2e.per.Serving'])[0]
+                data_arrays['your_food_choices_categories'].append(category)
+                data_arrays['your_food_choices_item'].append(item)
+                data_arrays['your_food_choices_emissions'].append(emission)
+                data_arrays['your_food_choices_aggregated_emissions'][data_arrays['your_food_choices_all_categories'].index(category)] += emission
+    return data_arrays
