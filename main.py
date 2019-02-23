@@ -2,10 +2,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-import plotly.graph_objs as go
 
 import pandas as pd
 import helper_data
+import dash_daq as daq
 
 default_country = 'Belgium'
 default_age_group = 'Adults'
@@ -18,16 +18,16 @@ oil_category = 'Oil'
 dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
+
+food_categories = helper_data.get_food_categories()
 all_keys = helper_data.get_food_category_and_item_dictionary()
 slider_keys = helper_data.get_slider_box_keys()
 
 
 # Read the data.
-df=pd.read_csv('https://raw.githubusercontent.com/mcunha95/CarbonFoodPrint/master/df/CleanFoodData.csv')
-co2fp_df=pd.read_csv('https://raw.githubusercontent.com/mcunha95/CarbonFoodPrint/master/df/CO2Footprint.csv')
-co2mean_df=pd.read_csv('https://raw.githubusercontent.com/mcunha95/CarbonFoodPrint/master/df/CO2_per_country_ageGroup.csv')
-
-
+df = pd.read_csv('df/CleanFoodData.csv')
+co2fp_df = pd.read_csv('df/CO2Footprint.csv')
+co2mean_df = pd.read_csv('df/CO2_per_country_ageGroup.csv')
 ################################################################################
 # MAP
 ################################################################################
@@ -65,7 +65,7 @@ def legend_map_func(filtered_df):
 
 def euro_map(filtered_df):
     #scl = [[0.0, 'rgb(242,240,247)'],[0.2, 'rgb(218,218,235)'],[0.4, 'rgb(188,189,220)'], [0.6, 'rgb(158,154,200)'],[0.8, 'rgb(117,107,177)'],[1.0, 'rgb(84,39,143)']]
-    
+
     legend_map = legend_map_func(filtered_df)
     txt = []
     for country in filtered_df['Country'].values:
@@ -115,11 +115,11 @@ def euro_map(filtered_df):
 # RUSHIL:
 ################################################################################
 
-def generateDropDown(categoryName):
+def generateDropDown(categoryName, food_items_only_per_category):
     return dcc.Dropdown(
         id='dropdown-' + categoryName,
-        options=[{'label': item, 'value': item} for item in helper_data.get_food_items_only_per_category(categoryName)],
-        multi=True,
+        options=[{'label': item, 'value': item} for item in food_items_only_per_category],
+        multi=True
     )
 
 
@@ -140,19 +140,20 @@ def generateSlider(itemName, categoryName):
     )
 
 
-def generateSliderArea(categoryName):
+def generateSliderArea(categoryName, food_items_only_per_category):
     return html.Div(
-        children=[generateSlider(item, categoryName) for item in helper_data.get_food_items_only_per_category(categoryName)],
+        children=[generateSlider(item, categoryName) for item in food_items_only_per_category],
             style={'marginLeft': 30, 'marginRight': 30, 'width': '200px'})
 
 
 def generateCategorySection(categoryName):
+    food_items_only_per_category = helper_data.get_food_items_only_per_category(categoryName)
     return html.Div(
         id='section-' + categoryName,
         children=[
             html.H3(categoryName),
-            generateDropDown(categoryName),
-            generateSliderArea(categoryName)
+            generateDropDown(categoryName, food_items_only_per_category),
+            generateSliderArea(categoryName, food_items_only_per_category)
         ], style={'marginLeft': 30, 'marginRight': 30}
     )
 
@@ -192,7 +193,7 @@ app.layout = html.Div(children=[
 
             dcc.Tab(label='Data', children = [
                         html.Div(children=[
-                            html.H3('What country do you want to check?', 
+                            html.H3('What country do you want to check?',
                                 style={'marginLeft': 30, 'marginRight': 30, 'marginTop': 10}),
                             dcc.Dropdown(
                                 id='country',
@@ -202,7 +203,7 @@ app.layout = html.Div(children=[
                             )
                         ]),
                         html.Div(children=[
-                            html.H3('What age group are you in?', 
+                            html.H3('What age group are you in?',
                                 style={'marginLeft': 30, 'marginRight': 30}),
                             dcc.Dropdown(
                                 id='age-group',
@@ -213,8 +214,9 @@ app.layout = html.Div(children=[
                         ]),
                         html.Div(children=[
                             generateCategorySection(category)
-                            for category in helper_data.get_food_categories()
+                            for category in food_categories
                         ]),
+                        html.Div(id='my-carbon-food-print-div'),
                         html.Div(id='live-graph')
                 ], className = "six columns"),
 
@@ -229,7 +231,7 @@ app.layout = html.Div(children=[
                         # Column: Map
                         dcc.Graph(id="euro-map")
                     ], className="row"),
-                    # Row: Filter 
+                    # Row: Filter
                     html.Div(children=[
                         html.H4('What age group are you in?'),
                         dcc.Dropdown(
@@ -244,8 +246,8 @@ app.layout = html.Div(children=[
             #End tabs
 
         ]),
-    ], className = "row"),
- 
+    ], className="row"),
+
 ])
 
 @app.callback(
@@ -260,7 +262,6 @@ app.layout = html.Div(children=[
 )
 def generateGraph(country, ageGroup, *args):
     newDict = {}
-    food_categories = helper_data.get_food_categories()
     i = 0
     for category in food_categories:
         newDict[category] = {}
@@ -292,16 +293,16 @@ def generateGraph(country, ageGroup, *args):
                 }
             }
         )
-        ]) 
-            
+        ])
+
 
 @app.callback(
     Output('euro-map', 'figure'),
     [Input('age-groups-map', 'value')]
 )
 def filter_euro_map(age_group):
-    cond_age_group = co2mean_df['ageGroup']==age_group
-    cond_non_cero = co2mean_df['Mean_CO2.g']!=0
+    cond_age_group = co2mean_df['ageGroup'] == age_group
+    cond_non_cero = co2mean_df['Mean_CO2.g'] != 0
     return euro_map(co2mean_df[(cond_age_group & cond_non_cero)])
 
 @app.callback(
@@ -312,52 +313,40 @@ def update_age_groups(country):
     return helper_data.get_age_groups(country)
 
 
-for category in helper_data.get_food_categories():
+for category in food_categories:
     @app.callback(
-        Output('dropdown-'+category,'options'),
-        [
-            Input('age-group','value'),
-            Input('country','value')
-        ],
-        [
-            State('dropdown-'+category,'id')
-        ]
+        Output('dropdown-' + category, 'options'),
+        [Input('age-group', 'value'),
+        Input('country', 'value')],
+        [State('dropdown-' + category, 'id')]
     )
-    def resetOptionsAgeChange(ageGroup,country, categoryId):
-        categoryName=categoryId.split('-')[-1]
+    def resetOptionsAgeChange(ageGroup, country, categoryId):
+        categoryName = categoryId.split('-')[-1]
         return helper_data.get_food_items(country, ageGroup, categoryName)
-    
+
+
     @app.callback(
-        Output('dropdown-'+category,'value'),
-        [
-            Input('dropdown-'+category,'options')
-        ]
+        Output('dropdown-' + category, 'value'),
+        [Input('dropdown-' + category, 'options')]
     )
     def clearSelections(CategoryOptions):
         return []
 
-
-for category in helper_data.get_food_categories():
+for category in food_categories:
     for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-value-box-' + category + '-' + item, 'children'),
-            [
-                Input('slider-' + category + '-' + item, 'value')
-            ]
+            [Input('slider-' + category + '-' + item, 'value')]
         )
         def setValue(inputValue):
             return inputValue
 
-for category in helper_data.get_food_categories():
+for category in food_categories:
     for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-container-' + category + '-' + item, 'style'),
-            [
-                Input('dropdown-' + category, 'value')
-            ],
-            [
-                State('slider-container-' + category + '-' + item, 'id')
-            ]
+            [Input('dropdown-' + category, 'value')],
+            [State('slider-container-' + category + '-' + item, 'id')]
         )
         def hideSlider(optionsArray, itemID):
             itemName = itemID.split('-')[-1]
@@ -366,6 +355,43 @@ for category in helper_data.get_food_categories():
             if itemName in optionsArray:
                 return {'display': 'block'}
             return {'display': 'none'}
+
+
+@app.callback(
+    Output(component_id='my-carbon-food-print-div', component_property='children'),
+    [Input(component_id='country', component_property='value'),
+     Input(component_id='age-group', component_property='value')]+
+    [Input(sliderValueId, 'value') for sliderValueId in slider_keys]
+)
+def get_my_carbon_food_print(country, age_group, *args):
+    newDict = {}
+    i = 0
+    for category in food_categories:
+        newDict[category] = {}
+        for item in all_keys[category]:
+            newDict[category][item] = args[i]
+            i += 1
+    my_carbon_food_print = helper_data.calculate_my_carbon_food_print(newDict)
+    country_food_print = helper_data.get_carbon_food_print_for_country(country, age_group)
+    return html.Div([
+        html.Div([
+            daq.Gauge(
+                id='my-gauge',
+                label='Your CO2 food print',
+                max=100000,
+                value=my_carbon_food_print,
+                min=0)
+        ], className="six columns"),
+        html.Div([
+            daq.Gauge(
+                id='country-gauge',
+                label=country + ' ' + age_group.lower() + ' CO2 food print',
+                max=100000,
+                value=country_food_print,
+                min=0)
+        ], className="six columns")
+    ], className="row")
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
