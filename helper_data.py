@@ -12,6 +12,12 @@ def get_countries():
     return get_dictionary_for_dash(countries)
 
 
+def get_all_age_groups():
+    df = read_data("df/CleanFoodData.csv")
+    ageGroups = list(df['Pop_Class'].unique())
+    return get_dictionary_for_dash(ageGroups)
+
+
 def get_age_groups(country):
     df = read_data("df/CO2_per_country_ageGroup.csv")
     age_groups = list(df.loc[country].ageGroup.unique())
@@ -59,6 +65,27 @@ def get_food_category_and_item_dictionary():
     return newDict
 
 
+def generate_data_arrays(consumption_dict):
+    df = read_data("df/CO2Footprint.csv")
+    data_arrays = {
+        'your_food_choices_categories':[],
+        'your_food_choices_item':[],
+        'your_food_choices_emissions':[],
+        'your_food_choices_all_categories': list(consumption_dict.keys()),
+        'your_food_choices_aggregated_emissions':[0]*len(consumption_dict.keys())
+    }
+    for category in consumption_dict.keys():
+        for item in consumption_dict[category].keys():
+            if consumption_dict[category][item] != 0:
+                food_item = df[df['Food']==item]
+                emission =  consumption_dict[category][item]*list(food_item['Grams.CO2e.per.Serving'])[0]
+                data_arrays['your_food_choices_categories'].append(category)
+                data_arrays['your_food_choices_item'].append(item)
+                data_arrays['your_food_choices_emissions'].append(emission)
+                data_arrays['your_food_choices_aggregated_emissions'][data_arrays['your_food_choices_all_categories'].index(category)] += emission
+    return data_arrays
+
+
 def calculate_my_carbon_food_print(consumption_dict):
     df = read_data("df/CO2Footprint.csv")
     my_carbon_food_print = 0
@@ -68,6 +95,7 @@ def calculate_my_carbon_food_print(consumption_dict):
                 food_item = df[df['Food'] == item]
                 my_carbon_food_print += consumption_dict[category][item]*list(food_item['Grams.CO2e.per.Serving'])[0]
     return my_carbon_food_print
+
 
 def get_carbon_food_print_for_country(country, age_group):
     df = read_data("df/CO2_per_country_ageGroup.csv")
