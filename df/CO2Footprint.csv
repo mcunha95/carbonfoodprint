@@ -1,90 +1,90 @@
 "ID","Food","Category","Serving.Size","Calories.per.Serving","Grams.CO2e.per.Serving","Grams.CO2e.per.kcal"
-"1","banana","Fruit",140,112,738.4,3.7
-"2","almond","Nut/Seed/Legume",30,172,166.1,1
-"3","apple","Fruit",140,80,106.7,1.3
-"4","apricot","Fruit",140,67,77.4,1.2
-"5","artichokes","Vegetable",85,40,208.1,5.2
-"6","asparagus","Vegetable",85,17,295.4,17.4
-"7","avocado","Vegetable",30,48,67.9,1.4
-"8","barley","Grain",45,159,31.3,0.2
-"9","beef","Meat",112,372,978.4,1.8
-"10","pepper","Vegetable",85,17,79.8,4.7
-"11","blueberries","Fruit",140,80,388.3,4.9
-"12","broccoli","Vegetable",85,29,77.5,2.7
-"13","chicken","Meat",114,264,285.4,0.9
-"14","brussel sprout","Vegetable",85,37,113.1,3.1
-"15","butter","Oil",14.3,100,79.5,0.8
-"16","cabbage","Vegetable",85,21,27.7,1.3
-"17","cantaloupe","Fruit",140,48,77.6,1.6
-"18","carrot","Vegetable",85,35,34.9,1
-"19","cauliflower","Vegetable",85,21,83,4
-"20","celery","Vegetable",85,14,40.2,2.9
-"21","cheese","Dairy",28,104,250.2,2.4
-"22","cocoa","Nut/Seed/Legume",5,32,7.3,1.5
-"23","cocoa butter","Other",14.3,119,47.3,0.4
-"24","coconut oil","Oil",14.3,116,25,0.2
-"25","corn","Vegetable",112,77,145.8,1.9
-"26","corn oil","Oil",14.3,119,12.2,0.1
-"27","cranberries","Fruit",55,26,120.7,4.6
-"28","cucumber","Vegetable",85,13,45,3.5
-"29","beans","Nut/Seed/Legume",35,115,86.2,0.7
-"30","eggplant","Vegetable",85,21,63.3,3
-"31","egg","Dairy",40,71,118.9,1.7
-"32","figs","Fruit",140,104,58.3,0.6
-"33","fish","Meat",110,106,413.8,2.1
-"34","flaxseed","Nut/Seed/Legume",30,161,17.8,0.1
-"35","garlic","Vegetable",30,43,44.2,1
-"36","grapefruit","Fruit",140,45,26.6,0.6
-"37","hazelnuts","Nut/Seed/Legume",30,189,96.2,0.3
-"38","honey","Other",21,64,46.3,0.7
-"39","honeydew","Fruit",140,50,82.9,1.7
-"40","hops","Other",0.889,120,7.7,0.1
-"41","kiwi","Fruit",140,85,120.7,1.4
-"42","lamb","Meat",114,319,1407.4,3.1
-"43","lard","Oil",14.3,115,8,0.1
-"44","lettuce","Vegetable",85,13,46,3.5
-"45","lima","Nut/Seed/Legume",35,118,160.7,1.4
-"46","macadamia nuts","Nut/Seed/Legume",30,215,221.4,0.4
-"47","milk","Dairy",320,156,247.6,1.6
-"48","nectarin","Fruit",140,62,87.4,1.4
-"49","oats","Grain",45,156,31.3,0.2
-"50","olive oil","Oil",14.3,119,98.8,0.8
-"51","olives","Other",15,22,16,0.7
-"52","onion","Vegetable",85,34,33.5,1
-"53","orange","Fruit",140,88,39.8,0.5
-"54","palm oil","Oil",14.3,119,17.6,0.1
-"55","papaya","Fruit",140,55,228,4.1
-"56","peach","Vegetable",140,57,114.7,2
-"57","peanuts","Nut/Seed/Legume",30,170,72.9,0.2
-"58","pear","Fruit",140,81,64.3,0.8
-"59","pecans","Nut/Seed/Legume",30,207,165.3,0.4
-"60","peppermint","Other",4,3,285.3,95.1
-"61","pig","Meat",114,297,824.5,1.9
-"62","pineapple","Fruit",140,70,66,0.9
-"63","pistachio","Nut/Seed/Legume",30,167,242.2,0.7
-"64","plum","Fruit",140,64,72.7,1.1
-"65","pork","Meat",114,297,906.3,3.1
-"66","potato","Vegetable",110,87,19.6,0.2
-"67","raisin grapes","Fruit",40,120,16,0.1
-"68","raspberries","Fruit",140,73,228,3.1
-"69","sugar","Other",4,15,2.9,0.2
-"70","coffee","Other",7.55983333333348,2,61.2,30.6
-"71","peas","Vegetable",85,26,109.9,4.2
-"72","soybean oil","Oil",14,120,15.4,0.1
-"73","soybeans","Nut/Seed/Legume",35,51,23.4,0.5
-"74","spearmint","Other",4,3,259.3,86.4
-"75","spinach","Vegetable",85,20,82,4.1
-"76","strawberries","Fruit",140,45,306.3,6.8
-"77","sunflower oil","Oil",14.3,124,9.1,0.1
-"78","cherries","Fruit",140,88,291.4,3.3
-"79","sweet corn","Vegetable",85,75,46.8,0.6
-"80","sweet potatoes","Vegetable",110,94,54.4,0.6
-"81","grape","Fruit",140,97,104.2,1.1
-"82","tobacco","Other",0.9,1,8.1,8.1
-"83","tomato","Vegetable",85,16,87.8,5.5
-"84","turkey","Meat",112,132,310.9,1.8
-"85","walnuts","Nut/Seed/Legume",30,196,156,0.4
-"86","watermelon","Fruit",280,84,66.5,0.8
-"87","wheat","Grain",45,153,21.6,0.1
-"88","wheat flour","Grain",30,109,21,0.2
-"89","rice","Grain",45,162,92.9,0.6
+"1","Banana","Fruit",140,112,738.4,3.7
+"2","Almonds","Nut/Seed/Legume",30,172,166.1,1
+"3","Apple","Fruit",140,80,106.7,1.3
+"4","Apricot","Fruit",140,67,77.4,1.2
+"5","Artichokes","Vegetable",85,40,208.1,5.2
+"6","Asparagus","Vegetable",85,17,295.4,17.4
+"7","Avocado","Vegetable",30,48,67.9,1.4
+"8","Barley","Grain",45,159,31.3,0.2
+"9","Beef","Meat",112,372,978.4,1.8
+"10","Pepper","Vegetable",85,17,79.8,4.7
+"11","Blueberries","Fruit",140,80,388.3,4.9
+"12","Broccoli","Vegetable",85,29,77.5,2.7
+"13","Chicken","Meat",114,264,285.4,0.9
+"14","Brussel sprout","Vegetable",85,37,113.1,3.1
+"15","Butter","Oil",14.3,100,79.5,0.8
+"16","Cabbage","Vegetable",85,21,27.7,1.3
+"17","Cantaloupe","Fruit",140,48,77.6,1.6
+"18","Carrot","Vegetable",85,35,34.9,1
+"19","Cauliflower","Vegetable",85,21,83,4
+"20","Celery","Vegetable",85,14,40.2,2.9
+"21","Cheese","Dairy",28,104,250.2,2.4
+"22","Cocoa","Nut/Seed/Legume",5,32,7.3,1.5
+"23","Cocoa butter","Other",14.3,119,47.3,0.4
+"24","Coconut oil","Oil",14.3,116,25,0.2
+"25","Corn","Vegetable",112,77,145.8,1.9
+"26","Corn oil","Oil",14.3,119,12.2,0.1
+"27","Cranberries","Fruit",55,26,120.7,4.6
+"28","Cucumber","Vegetable",85,13,45,3.5
+"29","Beans","Nut/Seed/Legume",35,115,86.2,0.7
+"30","Eggplant","Vegetable",85,21,63.3,3
+"31","Eggs","Dairy",40,71,118.9,1.7
+"32","Figs","Fruit",140,104,58.3,0.6
+"33","Fish","Meat",110,106,413.8,2.1
+"34","Flaxseed","Nut/Seed/Legume",30,161,17.8,0.1
+"35","Garlic","Vegetable",30,43,44.2,1
+"36","Grapefruit","Fruit",140,45,26.6,0.6
+"37","Hazelnuts","Nut/Seed/Legume",30,189,96.2,0.3
+"38","Honey","Other",21,64,46.3,0.7
+"39","Honeydew","Fruit",140,50,82.9,1.7
+"40","Hops","Other",0.889,120,7.7,0.1
+"41","Kiwi","Fruit",140,85,120.7,1.4
+"42","Lamb","Meat",114,319,1407.4,3.1
+"43","Lard","Oil",14.3,115,8,0.1
+"44","Lettuce","Vegetable",85,13,46,3.5
+"45","Lima","Nut/Seed/Legume",35,118,160.7,1.4
+"46","Macadamia nuts","Nut/Seed/Legume",30,215,221.4,0.4
+"47","Milk","Dairy",320,156,247.6,1.6
+"48","Nectarine","Fruit",140,62,87.4,1.4
+"49","Oats","Grain",45,156,31.3,0.2
+"50","Olive oil","Oil",14.3,119,98.8,0.8
+"51","Olives","Other",15,22,16,0.7
+"52","Onion","Vegetable",85,34,33.5,1
+"53","Orange","Fruit",140,88,39.8,0.5
+"54","Palm oil","Oil",14.3,119,17.6,0.1
+"55","Papaya","Fruit",140,55,228,4.1
+"56","Peach","Vegetable",140,57,114.7,2
+"57","Peanuts","Nut/Seed/Legume",30,170,72.9,0.2
+"58","Pear","Fruit",140,81,64.3,0.8
+"59","Pecans","Nut/Seed/Legume",30,207,165.3,0.4
+"60","Peppermint","Other",4,3,285.3,95.1
+"61","Pig","Meat",114,297,824.5,1.9
+"62","Pineapple","Fruit",140,70,66,0.9
+"63","Pistachio","Nut/Seed/Legume",30,167,242.2,0.7
+"64","Plum","Fruit",140,64,72.7,1.1
+"65","Pork","Meat",114,297,906.3,3.1
+"66","Potato","Vegetable",110,87,19.6,0.2
+"67","Raisin grapes","Fruit",40,120,16,0.1
+"68","Raspberries","Fruit",140,73,228,3.1
+"69","Sugar","Other",4,15,2.9,0.2
+"70","Coffee","Other",7.55983333333348,2,61.2,30.6
+"71","Peas","Vegetable",85,26,109.9,4.2
+"72","Soybean oil","Oil",14,120,15.4,0.1
+"73","Soybeans","Nut/Seed/Legume",35,51,23.4,0.5
+"74","Spearmint","Other",4,3,259.3,86.4
+"75","Spinach","Vegetable",85,20,82,4.1
+"76","Strawberries","Fruit",140,45,306.3,6.8
+"77","Sunflower oil","Oil",14.3,124,9.1,0.1
+"78","Cherries","Fruit",140,88,291.4,3.3
+"79","Sweet corn","Vegetable",85,75,46.8,0.6
+"80","Sweet potatoes","Vegetable",110,94,54.4,0.6
+"81","Grape","Fruit",140,97,104.2,1.1
+"82","Tobacco","Other",0.9,1,8.1,8.1
+"83","Tomato","Vegetable",85,16,87.8,5.5
+"84","Turkey","Meat",112,132,310.9,1.8
+"85","Walnuts","Nut/Seed/Legume",30,196,156,0.4
+"86","Watermelon","Fruit",280,84,66.5,0.8
+"87","Wheat","Grain",45,153,21.6,0.1
+"88","Wheat flour","Grain",30,109,21,0.2
+"89","Rice","Grain",45,162,92.9,0.6
