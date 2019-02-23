@@ -5,6 +5,7 @@ from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
 import helper_data
+import dash_daq as daq
 
 default_country = 'Belgium'
 default_age_group = 'Adults'
@@ -19,6 +20,8 @@ nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
 
 food_categories = helper_data.get_food_categories()
+all_keys = helper_data.get_food_category_and_item_dictionary()
+slider_keys = helper_data.get_slider_box_keys()
 
 
 def generateDropDown(categoryName, food_items_only_per_category):
@@ -66,7 +69,7 @@ def generateCategorySection(categoryName):
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app.layout = html.Div(children=[
-    html.H1('Carbon Food Print'),
+    html.H1('MyCarbonFoodPrint'),
     html.Img(
         src="https://media.licdn.com/dms/image/C5603AQG3ZEUy_W3qkQ/profile-displayphoto-shrink_200_200/0?e=1555545600&v=beta&t=BTyCpIJqrHQnKVIuNdaBgc6CwnYy6oYtfea_OT2qvbY",
         width=200,
@@ -90,7 +93,8 @@ app.layout = html.Div(children=[
     html.Div(children=[
         generateCategorySection(category)
         for category in food_categories
-    ])
+    ]),
+    html.Div(id='my-carbon-food-print-div')
 ])
 
 
@@ -144,6 +148,43 @@ for category in food_categories:
             if itemName in optionsArray:
                 return {'display': 'block'}
             return {'display': 'none'}
+
+
+@app.callback(
+    Output(component_id='my-carbon-food-print-div', component_property='children'),
+    [Input(component_id='country', component_property='value'),
+     Input(component_id='age-group', component_property='value')]+
+    [Input(sliderValueId, 'value') for sliderValueId in slider_keys]
+)
+def get_my_carbon_food_print(country, age_group, *args):
+    newDict = {}
+    i = 0
+    for category in food_categories:
+        newDict[category] = {}
+        for item in all_keys[category]:
+            newDict[category][item] = args[i]
+            i += 1
+    my_carbon_food_print = helper_data.calculate_my_carbon_food_print(newDict)
+    country_food_print = helper_data.get_carbon_food_print_for_country(country, age_group)
+    return html.Div([
+        html.Div([
+            daq.Gauge(
+                id='my-gauge',
+                label='Your CO2 food print',
+                max=100000,
+                value=my_carbon_food_print,
+                min=0)
+        ], className="six columns"),
+        html.Div([
+            daq.Gauge(
+                id='country-gauge',
+                label=country + ' ' + age_group.lower() + ' CO2 food print',
+                max=100000,
+                value=country_food_print,
+                min=0)
+        ], className="six columns")
+    ], className="row")
+
 
 if __name__ == '__main__':
     app.run_server(debug=True)
