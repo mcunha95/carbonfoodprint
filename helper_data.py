@@ -54,3 +54,22 @@ def get_slider_box_keys():
         structuredSubList = ['slider-'+category+'-'+foodItem for foodItem in subList]
         keys = keys + structuredSubList
     return keys
+
+
+
+def generate_data_arrays(consumption_dict):
+    df = read_data("df/CO2Footprint.csv")
+    data_arrays = {
+        'your_food_choices_categories':[],
+        'your_food_choices_item':[],
+        'your_food_choices_emissions':[] 
+    }
+    for category in consumption_dict.keys():
+        for item in consumption_dict[category].keys():
+            if consumption_dict[category][item] != 0:
+                food_item = df[df['Food']==item]
+                emission =  consumption_dict[category][item]*list(food_item['Grams.CO2e.per.Serving'])[0]
+                data_arrays['your_food_choices_categories'].append(category)
+                data_arrays['your_food_choices_item'].append(item)
+                data_arrays['your_food_choices_emissions'].append(emission)
+    return data_arrays

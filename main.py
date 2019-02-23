@@ -112,7 +112,19 @@ def generateGraph(country, ageGroup, *args):
         for item in all_keys[category]:
             newDict[category][item]=args[i]
             i+=1
-    return True
+    # from here we need to take the new dict and generate the graphs
+    dataArrays=helper_data.generate_data_arrays(newDict)
+    return html.Div(dcc.Graph(
+        id='country-person-graph',
+        figure={
+            'data': [
+                {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
+            ],
+            'layout': {
+                'title': 'Comparison with your country'
+            }
+        }
+    )) 
             
 
 
