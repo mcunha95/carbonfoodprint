@@ -133,7 +133,7 @@ def generateSlider(itemName, categoryName):
             dcc.Slider(
                 id='slider-' + categoryName + '-' + itemName,
                 min=0,
-                max=10,
+                max=20,
                 step=1,
                 value=0,
             )
@@ -275,6 +275,9 @@ def generateGraph(country, ageGroup, *args):
             i+=1
     # from here we need to take the new dict and generate the graphs
     dataArrays=helper_data.generate_data_arrays(newDict)
+    myTotalWeeklyCO2 = sum(dataArrays['your_food_choices_emissions'])
+    countryArrays=helper_data.generate_data_arrays_country(country,ageGroup,myTotalWeeklyCO2)
+    print(countryArrays['color'])
     return html.Div(children=[
         dcc.Graph(
             id='country-person-graph-agg',
@@ -302,6 +305,18 @@ def generateGraph(country, ageGroup, *args):
                     'yaxis':{
                      'title':'CO2 footprint [grams]'
                     }
+                }
+            }
+        ),
+        dcc.Graph(
+            id='countries-person-comparision',
+            figure={
+                'data': [
+                    {'x': countryArrays['country'], 'y': countryArrays['country_emissions'], 'type': 'bar',
+                     'marker':{'color':countryArrays['color']}},
+                ],
+                'layout': {
+                    'title': 'average Weekly CO2 emissions per person per country (in your population group)'
                 }
             }
         )
