@@ -12,6 +12,13 @@ def get_countries():
     return get_dictionary_for_dash(countries)
 
 
+def get_all_age_groups():
+    df = read_data("df/CleanFoodData.csv")
+    ageGroups = list(df['Pop_Class'].unique())
+    return [{'label': ageGroup, 'value': ageGroup} for ageGroup in ageGroups]
+
+
+
 def get_age_groups(country):
     df = read_data("df/CO2_per_country_ageGroup.csv")
     age_groups = list(df.loc[country].ageGroup.unique())
