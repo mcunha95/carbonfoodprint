@@ -62,7 +62,9 @@ def generate_data_arrays(consumption_dict):
     data_arrays = {
         'your_food_choices_categories':[],
         'your_food_choices_item':[],
-        'your_food_choices_emissions':[] 
+        'your_food_choices_emissions':[],
+        'your_food_choices_all_categories': list(consumption_dict.keys()),
+        'your_food_choices_aggregated_emissions':[0]*len(consumption_dict.keys())
     }
     for category in consumption_dict.keys():
         for item in consumption_dict[category].keys():
@@ -72,4 +74,5 @@ def generate_data_arrays(consumption_dict):
                 data_arrays['your_food_choices_categories'].append(category)
                 data_arrays['your_food_choices_item'].append(item)
                 data_arrays['your_food_choices_emissions'].append(emission)
+                data_arrays['your_food_choices_aggregated_emissions'][data_arrays['your_food_choices_all_categories'].index(category)] += emission
     return data_arrays

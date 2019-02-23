@@ -114,17 +114,30 @@ def generateGraph(country, ageGroup, *args):
             i+=1
     # from here we need to take the new dict and generate the graphs
     dataArrays=helper_data.generate_data_arrays(newDict)
-    return html.Div(dcc.Graph(
-        id='country-person-graph',
-        figure={
-            'data': [
-                {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
-            ],
-            'layout': {
-                'title': 'Comparison with your country'
+    return html.Div(children=[
+        dcc.Graph(
+            id='country-person-graph-agg',
+            figure={
+                'data': [
+                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'], 'type': 'bar', 'name': 'You'},
+                ],
+                'layout': {
+                    'title': 'Comparison with your country'
+                }
             }
-        }
-    )) 
+        ),
+        dcc.Graph(
+            id='country-person-graph',
+            figure={
+                'data': [
+                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
+                ],
+                'layout': {
+                    'title': 'Comparison with your country'
+                }
+            }
+        )
+        ]) 
             
 
 
