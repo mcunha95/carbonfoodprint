@@ -120,6 +120,7 @@ def generateDropDown(categoryName):
         id='dropdown-' + categoryName,
         options=[{'label': item, 'value': item} for item in helper_data.get_food_items_only_per_category(categoryName)],
         multi=True,
+        style={'marginLeft': 15, 'marginRight': 15, 'width': '600px'}
     )
 
 
@@ -128,6 +129,7 @@ def generateSlider(itemName, categoryName):
         id='slider-container-' + categoryName + '-' + itemName,
         children=[
             html.H5(itemName),
+            html.P("(Servings per week)"),
             html.H5(id='slider-value-box-' + categoryName + '-' + itemName),
             dcc.Slider(
                 id='slider-' + categoryName + '-' + itemName,
@@ -190,7 +192,7 @@ app.layout = html.Div(children=[
             #Tab one
             ################################################################################
 
-            dcc.Tab(label='Data', children = [
+            dcc.Tab(label='Calculate my CO2 footprint', children = [
                         html.Div(children=[
                             html.H3('What country do you want to check?', 
                                 style={'marginLeft': 30, 'marginRight': 30, 'marginTop': 10}),
@@ -222,22 +224,26 @@ app.layout = html.Div(children=[
             #Tab two
             ################################################################################
 
-            dcc.Tab(label='Graph', children =[
+            dcc.Tab(label='Explore Europe', children =[
+
+                    # Row: Filter 
+                    html.Div(children=[
+                        html.H4('What age group are you in?', style={'marginLeft': 30}),
+                        dcc.Dropdown(
+                            id='age-groups-map',
+                            options=helper_data.get_all_age_groups(),
+                            value='Adults',
+                            style={'marginLeft': 30, 'marginRight': 0, 'width': '200px'}
+                        )
+                    ]),
 
                     #Code in tab
                     html.Div([
                         # Column: Map
                         dcc.Graph(id="euro-map")
-                    ], className="row"),
-                    # Row: Filter 
-                    html.Div(children=[
-                        html.H4('What age group are you in?'),
-                        dcc.Dropdown(
-                            id='age-groups-map',
-                            options=helper_data.get_all_age_groups(),
-                            value='Adults'
-                        )
-                    ]),
+                    ],
+                    className="row"),
+  
                     #Code in tab
 
                 ], className = "six columns"),
@@ -274,21 +280,28 @@ def generateGraph(country, ageGroup, *args):
             id='country-person-graph-agg',
             figure={
                 'data': [
-                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'], 'type': 'bar', 'name': 'You'},
+                    {'x': dataArrays['your_food_choices_all_categories'], 'y': dataArrays['your_food_choices_aggregated_emissions'],  'type': 'bar'},
                 ],
                 'layout': {
-                    'title': 'Comparison with your country'
+                    'title': 'My CO2 production/food group',
+                    'yaxis':{
+                     'title':'CO2 footprint [grams]'
+                    }
                 }
-            }
+            },
+            style={'marginLeft': 30, 'marginRight': 30, 'maxwidth': '600px'}
         ),
         dcc.Graph(
             id='country-person-graph',
             figure={
                 'data': [
-                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'name': 'You'},
+                    {'x': dataArrays['your_food_choices_item'], 'y': dataArrays['your_food_choices_emissions'], 'type': 'bar', 'width': [0.8] },
                 ],
                 'layout': {
-                    'title': 'Comparison with your country'
+                    'title': 'My CO2 production/food',
+                    'yaxis':{
+                     'title':'CO2 footprint [grams]'
+                    }
                 }
             }
         )
