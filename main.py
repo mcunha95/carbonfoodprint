@@ -18,12 +18,13 @@ dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
 
+food_categories = helper_data.get_food_categories()
 
 
-def generateDropDown(categoryName):
+def generateDropDown(categoryName, food_items_only_per_category):
     return dcc.Dropdown(
         id='dropdown-' + categoryName,
-        options=[{'label': item, 'value': item} for item in helper_data.get_food_items('', '', categoryName)],
+        options=[{'label': item, 'value': item} for item in food_items_only_per_category],
         multi=True
     )
 
@@ -45,18 +46,19 @@ def generateSlider(itemName, categoryName):
     )
 
 
-def generateSliderArea(categoryName):
+def generateSliderArea(categoryName, food_items_only_per_category):
     return html.Div(
-        children=[generateSlider(item, categoryName) for item in helper_data.get_food_items('', '', categoryName)])
+        children=[generateSlider(item, categoryName) for item in food_items_only_per_category])
 
 
 def generateCategorySection(categoryName):
+    food_items_only_per_category = helper_data.get_food_items_only_per_category(categoryName)
     return html.Div(
         id='section-' + categoryName,
         children=[
             html.H1(categoryName),
-            generateDropDown(categoryName),
-            generateSliderArea(categoryName)
+            generateDropDown(categoryName, food_items_only_per_category),
+            generateSliderArea(categoryName, food_items_only_per_category)
         ]
     )
 
@@ -87,7 +89,7 @@ app.layout = html.Div(children=[
     ]),
     html.Div(children=[
         generateCategorySection(category)
-        for category in helper_data.get_food_categories()
+        for category in food_categories
     ])
 ])
 
@@ -100,52 +102,40 @@ def update_age_groups(country):
     return helper_data.get_age_groups(country)
 
 
-for category in helper_data.get_food_categories():
+for category in food_categories:
     @app.callback(
-        Output('dropdown-'+category,'options'),
-        [
-            Input('age-group','value'),
-            Input('country','value')
-        ],
-        [
-            State('dropdown-'+category,'id')
-        ]
+        Output('dropdown-' + category, 'options'),
+        [Input('age-group', 'value'),
+        Input('country', 'value')],
+        [State('dropdown-' + category, 'id')]
     )
-    def resetOptionsAgeChange(ageGroup,country, categoryId):
-        categoryName=categoryId.split('-')[-1]
-        return helper_data.get_dictionary_for_dash(helper_data.get_food_items(country, ageGroup, categoryName))
-    
+    def resetOptionsAgeChange(ageGroup, country, categoryId):
+        categoryName = categoryId.split('-')[-1]
+        return helper_data.get_food_items(country, ageGroup, categoryName)
+
+
     @app.callback(
-        Output('dropdown-'+category,'value'),
-        [
-            Input('dropdown-'+category,'options')
-        ]
+        Output('dropdown-' + category, 'value'),
+        [Input('dropdown-' + category, 'options')]
     )
     def clearSelections(CategoryOptions):
         return []
 
-
-for category in helper_data.get_food_categories():
-    for item in helper_data.get_food_items('', '', category):
+for category in food_categories:
+    for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-value-box-' + category + '-' + item, 'children'),
-            [
-                Input('slider-' + category + '-' + item, 'value')
-            ]
+            [Input('slider-' + category + '-' + item, 'value')]
         )
         def setValue(inputValue):
             return inputValue
 
-for category in helper_data.get_food_categories():
-    for item in helper_data.get_food_items('', '', category):
+for category in food_categories:
+    for item in helper_data.get_food_items_only_per_category(category):
         @app.callback(
             Output('slider-container-' + category + '-' + item, 'style'),
-            [
-                Input('dropdown-' + category, 'value')
-            ],
-            [
-                State('slider-container-' + category + '-' + item, 'id')
-            ]
+            [Input('dropdown-' + category, 'value')],
+            [State('slider-container-' + category + '-' + item, 'id')]
         )
         def hideSlider(optionsArray, itemID):
             itemName = itemID.split('-')[-1]
