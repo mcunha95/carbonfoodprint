@@ -18,7 +18,6 @@ dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
 
-df = helper_data.read_data("df/CleanFoodData.csv")
 
 
 def generateDropDown(categoryName):
@@ -99,6 +98,32 @@ app.layout = html.Div(children=[
 )
 def update_age_groups(country):
     return helper_data.get_age_groups(country)
+
+
+for category in helper_data.get_food_categories():
+    @app.callback(
+        Output('dropdown-'+category,'options'),
+        [
+            Input('age-group','value'),
+            Input('country','value')
+        ],
+        [
+            State('dropdown-'+category,'id')
+        ]
+    )
+    def resetOptionsAgeChange(ageGroup,country, categoryId):
+        categoryName=categoryId.split('-')[-1]
+        return helper_data.get_dictionary_for_dash(helper_data.get_food_items(country, ageGroup, categoryName))
+    
+    @app.callback(
+        Output('dropdown-'+category,'value'),
+        [
+            Input('dropdown-'+category,'options')
+        ]
+    )
+    def clearSelections(CategoryOptions):
+        print('clearingSelections')
+        return []
 
 
 for category in helper_data.get_food_categories():
