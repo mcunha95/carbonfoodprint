@@ -122,7 +122,6 @@ for category in helper_data.get_food_categories():
         ]
     )
     def clearSelections(CategoryOptions):
-        print('clearingSelections')
         return []
 
 
