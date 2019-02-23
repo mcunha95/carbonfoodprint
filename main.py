@@ -17,7 +17,8 @@ oil_category = 'Oil'
 dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
-
+all_keys = helper_data.get_food_category_and_item_dictionary()
+slider_keys = helper_data.get_slider_box_keys()
 
 
 def generateDropDown(categoryName):
@@ -88,8 +89,60 @@ app.layout = html.Div(children=[
     html.Div(children=[
         generateCategorySection(category)
         for category in helper_data.get_food_categories()
-    ])
+    ]),
+    html.Div(id='live-graph')
 ])
+
+@app.callback(
+    Output(component_id='live-graph',component_property='children'),
+    [
+        Input('country','value'),
+        Input('age-group','value')
+    ]+
+    [
+        Input(sliderValueId, 'value') for sliderValueId in slider_keys
+    ]
+)
+def generateGraph(country, ageGroup, *args):
+    newDict = {}
+    food_categories = helper_data.get_food_categories()
+    i = 0
+    for category in food_categories:
+        newDict[category] = {}
+        for item in all_keys[category]:
+            newDict[category][item]=args[i]
+            i+=1
+    return True
+            
+
+
+
+# country = 'Spain'
+# foods = ['banana', 'avocado', 'fries', 'kapsalon']
+# values_food_country = [1,5,2,4]
+# values_food_person = [3,4,5,2]
+
+# @app.callback(
+#     Output(component_id='live-graph', component_property='children'),
+#     [Input(component_id='id_input_1', component_property='value'),
+#     Input(component_id='id_input_2', component_property='value')
+#     ]
+# )
+# def update_output_div(input_value_1, input_value_2):
+#     values_food_country[2] = input_value_1
+#     values_food_country[1] = input_value_2
+#     return html.Div(dcc.Graph(
+#         id='country-person-graph',
+#         figure={
+#             'data': [
+#                 {'x': foods, 'y': values_food_country, 'type': 'bar', 'name': country},
+#                 {'x': foods, 'y': values_food_person, 'type': 'bar', 'name': 'You'},
+#             ],
+#             'layout': {
+#                 'title': 'Comparison with your country'
+#             }
+#         }
+#     ))
 
 
 @app.callback(

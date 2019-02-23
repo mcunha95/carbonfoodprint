@@ -37,3 +37,20 @@ def get_food_items(country, age_group, category):
 
 def get_dictionary_for_dash(series):
     return [{'label': item, 'value': item} for item in series]
+
+
+def get_food_category_and_item_dictionary():
+    newDict = {}
+    food_categories = get_food_categories()
+    for category in food_categories:
+        newDict[category] = get_food_items('','',category)
+    return newDict
+    
+def get_slider_box_keys():
+    keys = []
+    categories = get_food_categories()
+    for category in categories:
+        subList = get_food_items('','',category)
+        structuredSubList = ['slider-'+category+'-'+foodItem for foodItem in subList]
+        keys = keys + structuredSubList
+    return keys
