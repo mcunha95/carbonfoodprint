@@ -20,20 +20,19 @@ def get_age_groups(country):
 
 def get_food_categories():
     df = read_data("df/CO2Footprint.csv")
-    food_categories = list(df['Category'].unique())
-    return get_dictionary_for_dash(food_categories)
+    return list(df['Category'].unique())
 
 
 def get_food_items(country, age_group, category):
     df = read_data("df/CleanFoodData.csv")
     df2 = pd.read_csv("df/CO2Footprint.csv", index_col=0)
-    if not age_group:
-        food_items_by_category = list(df['Food'].unique())
+    if not country or not age_group:
+        food_items_by_category = list(df2[df2['Category'] == category].Food)
     else:
         food_items = list(df[(df.index == country) & (df['Pop_Class'] == age_group)].FoodId.unique())
         food_items_co2dataset = df2.loc[df2.index.isin(food_items)]
         food_items_by_category = list(food_items_co2dataset[food_items_co2dataset['Category'] == category].Food)
-    return get_dictionary_for_dash(food_items_by_category)
+    return food_items_by_category
 
 
 def get_dictionary_for_dash(series):

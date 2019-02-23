@@ -1,7 +1,7 @@
 import dash
 import dash_core_components as dcc
 import dash_html_components as html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 import plotly.graph_objs as go
 
 import helper_data
@@ -17,6 +17,50 @@ oil_category = 'Oil'
 dairy_category = 'Dairy'
 nut_seed_legume_category = 'Nut/Seed/Legume'
 other_category = 'Other'
+
+df = helper_data.read_data("df/CleanFoodData.csv")
+
+
+def generateDropDown(categoryName):
+    return dcc.Dropdown(
+        id='dropdown-' + categoryName,
+        options=[{'label': item, 'value': item} for item in helper_data.get_food_items('', '', categoryName)],
+        multi=True
+    )
+
+
+def generateSlider(itemName, categoryName):
+    return html.Div(
+        id='slider-container-' + categoryName + '-' + itemName,
+        children=[
+            html.H5(itemName),
+            html.H5(id='slider-value-box-' + categoryName + '-' + itemName),
+            dcc.Slider(
+                id='slider-' + categoryName + '-' + itemName,
+                min=0,
+                max=10,
+                step=1,
+                value=0,
+            )
+        ]
+    )
+
+
+def generateSliderArea(categoryName):
+    return html.Div(
+        children=[generateSlider(item, categoryName) for item in helper_data.get_food_items('', '', categoryName)])
+
+
+def generateCategorySection(categoryName):
+    return html.Div(
+        id='section-' + categoryName,
+        children=[
+            html.H1(categoryName),
+            generateDropDown(categoryName),
+            generateSliderArea(categoryName)
+        ]
+    )
+
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
@@ -43,60 +87,8 @@ app.layout = html.Div(children=[
         )
     ]),
     html.Div(children=[
-        html.H3(fruit_category),
-        dcc.Dropdown(
-            id='fruit-category',
-            options=helper_data.get_food_items(default_country, default_age_group, fruit_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(meat_category),
-        dcc.Dropdown(
-            id='meat-category',
-            options=helper_data.get_food_items(default_country, default_age_group, meat_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(vegetable_category),
-        dcc.Dropdown(
-            id='vegetable-category',
-            options=helper_data.get_food_items(default_country, default_age_group, vegetable_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(grain_category),
-        dcc.Dropdown(
-            id='grain-category',
-            options=helper_data.get_food_items(default_country, default_age_group, grain_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(oil_category),
-        dcc.Dropdown(
-            id='oil-category',
-            options=helper_data.get_food_items(default_country, default_age_group, oil_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(dairy_category),
-        dcc.Dropdown(
-            id='dairy-category',
-            options=helper_data.get_food_items(default_country, default_age_group, dairy_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(nut_seed_legume_category),
-        dcc.Dropdown(
-            id='nut-seed-legume-category',
-            options=helper_data.get_food_items(default_country, default_age_group, nut_seed_legume_category)
-        )
-    ]),
-    html.Div(children=[
-        html.H3(other_category),
-        dcc.Dropdown(
-            id='other-category',
-            options=helper_data.get_food_items(default_country, default_age_group, other_category)
-        )
+        generateCategorySection(category)
+        for category in helper_data.get_food_categories()
     ])
 ])
 
@@ -109,77 +101,35 @@ def update_age_groups(country):
     return helper_data.get_age_groups(country)
 
 
-@app.callback(
-    Output(component_id='fruit-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_fruit_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Fruit')
+for category in helper_data.get_food_categories():
+    for item in helper_data.get_food_items('', '', category):
+        @app.callback(
+            Output('slider-value-box-' + category + '-' + item, 'children'),
+            [
+                Input('slider-' + category + '-' + item, 'value')
+            ]
+        )
+        def setValue(inputValue):
+            return inputValue
 
-
-@app.callback(
-    Output(component_id='meat-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_meat_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Meat')
-
-
-@app.callback(
-    Output(component_id='vegetable-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_vegetable_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Vegetable')
-
-
-@app.callback(
-    Output(component_id='grain-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_grain_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Grain')
-
-
-@app.callback(
-    Output(component_id='oil-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_oil_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Oil')
-
-
-@app.callback(
-    Output(component_id='dairy-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_dairy_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Dairy')
-
-
-@app.callback(
-    Output(component_id='nut-seed-legume-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_nut_seed_legume_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Nut/Seed/Legume')
-
-
-@app.callback(
-    Output(component_id='other-category', component_property='options'),
-    [Input(component_id='country', component_property='value'),
-     Input(component_id='age-group', component_property='value')]
-)
-def update_other_items(country, age_group):
-    return helper_data.get_food_items(country, age_group, 'Other')
-
+for category in helper_data.get_food_categories():
+    for item in helper_data.get_food_items('', '', category):
+        @app.callback(
+            Output('slider-container-' + category + '-' + item, 'style'),
+            [
+                Input('dropdown-' + category, 'value')
+            ],
+            [
+                State('slider-container-' + category + '-' + item, 'id')
+            ]
+        )
+        def hideSlider(optionsArray, itemID):
+            itemName = itemID.split('-')[-1]
+            if optionsArray is None:
+                return {'display': 'none'}
+            if itemName in optionsArray:
+                return {'display': 'block'}
+            return {'display': 'none'}
 
 if __name__ == '__main__':
     app.run_server(debug=True)
