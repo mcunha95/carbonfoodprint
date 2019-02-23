@@ -1,0 +1,172 @@
+Country,ageGroup,Mean_CO2.g
+Austria,Adults,3289.6824805085907
+Austria,Elderly,2965.83575869657
+Austria,Very elderly,3230.62348644874
+Austria,Other children,1693.7929454566186
+Austria,Adolescents,1339.1242404700574
+Austria,Toddlers,0.0
+Austria,Infants,0.0
+Austria,Lactating women,0.0
+Austria,Pregnant women,0.0
+Belgium,Adults,4509.391189622296
+Belgium,Elderly,5412.777547975594
+Belgium,Very elderly,4974.666498315393
+Belgium,Other children,1221.2269851687201
+Belgium,Adolescents,1902.822306791292
+Belgium,Toddlers,1340.160102147279
+Belgium,Infants,0.0
+Belgium,Lactating women,0.0
+Belgium,Pregnant women,0.0
+Bulgaria,Adults,0.0
+Bulgaria,Elderly,0.0
+Bulgaria,Very elderly,0.0
+Bulgaria,Other children,1161.548116097231
+Bulgaria,Adolescents,0.0
+Bulgaria,Toddlers,1031.9316276577733
+Bulgaria,Infants,401.6652177220976
+Bulgaria,Lactating women,0.0
+Bulgaria,Pregnant women,0.0
+Cyprus,Adults,0.0
+Cyprus,Elderly,0.0
+Cyprus,Very elderly,0.0
+Cyprus,Other children,0.0
+Cyprus,Adolescents,1246.867885732174
+Cyprus,Toddlers,0.0
+Cyprus,Infants,0.0
+Cyprus,Lactating women,0.0
+Cyprus,Pregnant women,0.0
+Czech Republic,Adults,1951.4307418605943
+Czech Republic,Elderly,0.0
+Czech Republic,Very elderly,0.0
+Czech Republic,Other children,1541.4955888222803
+Czech Republic,Adolescents,1984.801365621374
+Czech Republic,Toddlers,0.0
+Czech Republic,Infants,0.0
+Czech Republic,Lactating women,0.0
+Czech Republic,Pregnant women,0.0
+Germany,Adults,5142.788120042265
+Germany,Elderly,5143.606966900239
+Germany,Very elderly,4531.993673470016
+Germany,Other children,3510.549277135012
+Germany,Adolescents,3325.7085313817392
+Germany,Toddlers,1718.1314561016277
+Germany,Infants,697.0902119550757
+Germany,Lactating women,0.0
+Germany,Pregnant women,0.0
+Denmark,Adults,15017.224987325364
+Denmark,Elderly,16318.567662729702
+Denmark,Very elderly,16217.08765064682
+Denmark,Other children,3438.529549265613
+Denmark,Adolescents,4001.8124056228835
+Denmark,Toddlers,1117.6608980725618
+Denmark,Infants,833.8718826128467
+Denmark,Lactating women,0.0
+Denmark,Pregnant women,0.0
+Spain,Adults,4561.024980338774
+Spain,Elderly,0.0
+Spain,Very elderly,0.0
+Spain,Other children,2490.8516299002454
+Spain,Adolescents,5447.0543310333705
+Spain,Toddlers,1056.2742589388822
+Spain,Infants,0.0
+Spain,Lactating women,0.0
+Spain,Pregnant women,0.0
+Finland,Adults,11773.941389074345
+Finland,Elderly,10175.1501513988
+Finland,Very elderly,0.0
+Finland,Other children,3949.8289156623873
+Finland,Adolescents,2139.3080736768593
+Finland,Toddlers,1939.8669502173523
+Finland,Infants,426.3572500668564
+Finland,Lactating women,0.0
+Finland,Pregnant women,0.0
+France,Adults,3979.1886925895706
+France,Elderly,3735.2977673533833
+France,Very elderly,3368.7145132119563
+France,Other children,1416.5678469530562
+France,Adolescents,1732.2434175416909
+France,Toddlers,0.0
+France,Infants,0.0
+France,Lactating women,0.0
+France,Pregnant women,0.0
+United Kingdom,Adults,3668.4972387728176
+United Kingdom,Elderly,1779.864640925614
+United Kingdom,Very elderly,1687.8112925618263
+United Kingdom,Other children,1029.8172837918978
+United Kingdom,Adolescents,1081.7076332276456
+United Kingdom,Toddlers,1983.4765231527208
+United Kingdom,Infants,836.565838948425
+United Kingdom,Lactating women,0.0
+United Kingdom,Pregnant women,0.0
+Greece,Adults,0.0
+Greece,Elderly,0.0
+Greece,Very elderly,0.0
+Greece,Other children,1225.7938669813263
+Greece,Adolescents,0.0
+Greece,Toddlers,0.0
+Greece,Infants,0.0
+Greece,Lactating women,2482.175802342835
+Greece,Pregnant women,0.0
+Hungary,Adults,2075.509253305856
+Hungary,Elderly,1840.437032323878
+Hungary,Very elderly,1701.2874425563218
+Hungary,Other children,0.0
+Hungary,Adolescents,0.0
+Hungary,Toddlers,0.0
+Hungary,Infants,0.0
+Hungary,Lactating women,0.0
+Hungary,Pregnant women,0.0
+Ireland,Adults,5108.322377307187
+Ireland,Elderly,2048.886995291797
+Ireland,Very elderly,1781.19109737893
+Ireland,Other children,0.0
+Ireland,Adolescents,0.0
+Ireland,Toddlers,0.0
+Ireland,Infants,0.0
+Ireland,Lactating women,0.0
+Ireland,Pregnant women,0.0
+Italy,Adults,2976.477714110344
+Italy,Elderly,2805.873835257736
+Italy,Very elderly,2524.6971296759043
+Italy,Other children,1962.4957163613417
+Italy,Adolescents,2378.7359369859128
+Italy,Toddlers,1404.805898064762
+Italy,Infants,773.4541951762882
+Italy,Lactating women,0.0
+Italy,Pregnant women,0.0
+Latvia,Adults,3602.829901607617
+Latvia,Elderly,0.0
+Latvia,Very elderly,0.0
+Latvia,Other children,1188.5209553705365
+Latvia,Adolescents,1698.4249168366805
+Latvia,Toddlers,0.0
+Latvia,Infants,0.0
+Latvia,Lactating women,0.0
+Latvia,Pregnant women,2575.5508494515134
+Netherlands,Adults,9734.776082285798
+Netherlands,Elderly,11841.828159557392
+Netherlands,Very elderly,4771.625437534186
+Netherlands,Other children,2207.314722284846
+Netherlands,Adolescents,1589.1847840548596
+Netherlands,Toddlers,954.0697986882737
+Netherlands,Infants,0.0
+Netherlands,Lactating women,0.0
+Netherlands,Pregnant women,0.0
+Romania,Adults,2541.757607150242
+Romania,Elderly,2203.9084882021057
+Romania,Very elderly,2129.980688943152
+Romania,Other children,0.0
+Romania,Adolescents,0.0
+Romania,Toddlers,0.0
+Romania,Infants,0.0
+Romania,Lactating women,0.0
+Romania,Pregnant women,0.0
+Sweden,Adults,9715.818646233261
+Sweden,Elderly,4951.107870339377
+Sweden,Very elderly,4300.488264053253
+Sweden,Other children,1199.2597894905641
+Sweden,Adolescents,1231.3238509771359
+Sweden,Toddlers,0.0
+Sweden,Infants,0.0
+Sweden,Lactating women,0.0
+Sweden,Pregnant women,0.0
