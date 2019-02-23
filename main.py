@@ -2,8 +2,10 @@ import dash
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
+from sklearn.neighbors import KNeighborsClassifier
 
 import pandas as pd
+import numpy as np
 import helper_data
 import dash_daq as daq
 
@@ -28,6 +30,19 @@ slider_keys = helper_data.get_slider_box_keys()
 df = pd.read_csv('df/CleanFoodData.csv')
 co2fp_df = pd.read_csv('df/CO2Footprint.csv')
 co2mean_df = pd.read_csv('df/CO2_per_country_ageGroup.csv')
+knn_df =pd.read_csv('https://raw.githubusercontent.com/mcunha95/CarbonFoodPrint/knn/KNN/formated_normalized_food_per_country_ageGroup.csv')
+
+################################################################################
+# KNN
+################################################################################
+
+def knn_predict(data):
+    X = np.asarray(knn_df.iloc[:,2:])
+    y_country = np.asarray(knn_df.iloc[:,0])
+    y_age = np.asarray(knn_df.iloc[:,1])
+    neigh_country = KNeighborsClassifier(n_neighbors = 1, weights='uniform', algorithm='auto')
+    neigh_country.fit(X, y_country)
+    return neigh_country.predict([data])[0]
 ################################################################################
 # MAP
 ################################################################################
@@ -218,6 +233,7 @@ app.layout = html.Div(children=[
                             for category in food_categories
                         ]),
                         html.Div(id='my-carbon-food-print-div'),
+                        html.Div(id='live-knn'),
                         html.Div(id='live-graph')
                 ], className = "six columns"),
 
@@ -416,6 +432,38 @@ def get_my_carbon_food_print(country, age_group, *args):
                 value=country_food_print,
                 min=0)
         ], className="six columns")
+    ], className="row")
+
+
+@app.callback(
+    Output(component_id='live-knn', component_property='children'),
+    [Input(component_id='country', component_property='value'),
+     Input(component_id='age-group', component_property='value')]+
+    [Input(sliderValueId, 'value') for sliderValueId in slider_keys]
+)
+def get_my_carbon_food_print(country, age_group, *args):
+    newDict = {}
+    newDictAvg = {}
+    total_grams = 0
+    i = 0
+    for category in food_categories:
+        newDict[category] = {}
+        for item in all_keys[category]:
+            newDict[category][item] = args[i]
+            total_grams += args[i]
+            i += 1
+    for key, values in newDict.items():
+        for key1, value1 in newDict[key].items():
+            if total_grams!=0:
+                newDictAvg[key1.lower()]=value1/total_grams
+    data_test = []
+    for col in list(knn_df.keys()[2:]):
+        if col == 'egg':
+            col='eggs'
+        data_test.append(newDictAvg[col])
+    knn_prediction = knn_predict(data_test)
+    return html.Div([
+        html.H3('According to your eating habits you eat similar to a person from '+knn_prediction)
     ], className="row")
 
 
