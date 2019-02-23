@@ -85,3 +85,24 @@ def generate_data_arrays(consumption_dict):
                 data_arrays['your_food_choices_emissions'].append(emission)
                 data_arrays['your_food_choices_aggregated_emissions'][data_arrays['your_food_choices_all_categories'].index(category)] += emission
     return data_arrays
+
+def generate_data_arrays_country(country,age_group,your_total):
+    df = pd.read_csv("df/CO2_per_country_ageGroup.csv")
+    df = df[df['ageGroup']==age_group]
+    df['Mean_CO2.g'] = df['Mean_CO2.g'].apply(lambda x: x*7)
+    df2 = pd.DataFrame([['YOU','',your_total]],columns=['Country','ageGroup','Mean_CO2.g'])
+    df = df.append(df2)
+    df = df.sort_values(by=['Mean_CO2.g'])
+
+    countryList = list(df['Country'])
+    i = countryList.index('YOU')
+
+    a = ['#8EB640']*len(list(df['Mean_CO2.g']))
+    a[i]='rgba(1,1,1,1)'
+
+    data_arrays = {
+         'country':countryList,
+         'country_emissions':list(df['Mean_CO2.g']),
+         'color':a
+    }
+    return data_arrays
