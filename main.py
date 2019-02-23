@@ -132,7 +132,7 @@ def generateSlider(itemName, categoryName):
             dcc.Slider(
                 id='slider-' + categoryName + '-' + itemName,
                 min=0,
-                max=10,
+                max=20,
                 step=1,
                 value=0,
             )
