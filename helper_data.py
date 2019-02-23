@@ -15,8 +15,7 @@ def get_countries():
 def get_all_age_groups():
     df = read_data("df/CleanFoodData.csv")
     ageGroups = list(df['Pop_Class'].unique())
-    return [{'label': ageGroup, 'value': ageGroup} for ageGroup in ageGroups]
-
+    return get_dictionary_for_dash(ageGroups)
 
 
 def get_age_groups(country):
@@ -48,13 +47,6 @@ def get_dictionary_for_dash(series):
     return [{'label': item, 'value': item} for item in series]
 
 
-def get_food_category_and_item_dictionary():
-    newDict = {}
-    food_categories = get_food_categories()
-    for category in food_categories:
-        newDict[category] = get_food_items_only_per_category(category)
-    return newDict
-    
 def get_slider_box_keys():
     keys = []
     categories = get_food_categories()
@@ -64,6 +56,13 @@ def get_slider_box_keys():
         keys = keys + structuredSubList
     return keys
 
+
+def get_food_category_and_item_dictionary():
+    newDict = {}
+    food_categories = get_food_categories()
+    for category in food_categories:
+        newDict[category] = get_food_items_only_per_category(category)
+    return newDict
 
 
 def generate_data_arrays(consumption_dict):
@@ -106,3 +105,18 @@ def generate_data_arrays_country(country,age_group,your_total):
          'color':a
     }
     return data_arrays
+
+def calculate_my_carbon_food_print(consumption_dict):
+    df = read_data("df/CO2Footprint.csv")
+    my_carbon_food_print = 0
+    for category in consumption_dict.keys():
+        for item in consumption_dict[category].keys():
+            if consumption_dict[category][item] != 0:
+                food_item = df[df['Food'] == item]
+                my_carbon_food_print += consumption_dict[category][item]*list(food_item['Grams.CO2e.per.Serving'])[0]
+    return my_carbon_food_print
+
+
+def get_carbon_food_print_for_country(country, age_group):
+    df = read_data("df/CO2_per_country_ageGroup.csv")
+    return int(df[(df.index == country) & (df['ageGroup'] == age_group)]['Mean_CO2.g'] * 7)
