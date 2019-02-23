@@ -277,7 +277,6 @@ def generateGraph(country, ageGroup, *args):
     dataArrays=helper_data.generate_data_arrays(newDict)
     myTotalWeeklyCO2 = sum(dataArrays['your_food_choices_emissions'])
     countryArrays=helper_data.generate_data_arrays_country(country,ageGroup,myTotalWeeklyCO2)
-    print(countryArrays['color'])
     return html.Div(children=[
         dcc.Graph(
             id='country-person-graph-agg',
