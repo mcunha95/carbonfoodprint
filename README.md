@@ -14,6 +14,13 @@ The user is asked for the country they want to be compared with, their age group
 
 ![User Input](user_input.png)
 
+![User Foodprint](user_foodprint.png)
+
+![User Categories Comparison](user_categories_comparison.png)
+
+![User Food Items Comparison](user_fooditems_comparison.png)
+
+![User Countries Comparison](user_countries_comparison.png)
 
 Below is shown a map with the different CO2 emissions per country based on dietary preferences by age group.
 
