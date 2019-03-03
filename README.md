@@ -1,6 +1,6 @@
 # MyCarbonFoodPrint Project
 
-_This project was developed as part of the Datathon'19[Datathon'19](http://datathon.cs.kuleuven.be/) competition, organized by the KU Leuven._
+_This project was developed as part of the [Datathon'19](http://datathon.cs.kuleuven.be/) competition, organized by the KU Leuven. Our team was rewarded as 2nd best Master team and 1st best Modelling team of the event._
 
 The competition consisted of analysing one of two different data sets and developing a prototype application/business solution. The data set selected for the analysis was the EFSA Comprehensive European Food Consumption (available on the the ./food_dataset folder). The app was developed in about 24 hours, by 5 group members.
 
@@ -46,7 +46,7 @@ In order to deploy the app on the browser, first download the required packages 
 
 ```
 # From the project repository type
-python main.py*
+python main.py
 
 # The app will be running on http://127.0.0.1:8050/
 
