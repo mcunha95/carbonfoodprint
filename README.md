@@ -1,4 +1,4 @@
-# CarbonFoodPrint Project
+# MyCarbonFoodPrint Project
 
 _This project was developed as part of the Datathon'19[Datathon'19](http://datathon.cs.kuleuven.be/) competition, organized by the KU Leuven._
 
@@ -14,11 +14,17 @@ The user is asked for the country they want to be compared with, their age group
 
 ![User Input](user_input.png)
 
+The image below corresponds to the comparison of the user's CO2 emissions and the average of the country he selected.
+
 ![User Foodprint](user_foodprint.png)
+
+The 2 images below show the user's CO2 emissions split by category and food item, respectively.
 
 ![User Categories Comparison](user_categories_comparison.png)
 
 ![User Food Items Comparison](user_fooditems_comparison.png)
+
+The below image presents the user's CO2 emissions compared to the average of other countries.
 
 ![User Countries Comparison](user_countries_comparison.png)
 
