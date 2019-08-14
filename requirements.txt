@@ -35,7 +35,7 @@ kiwisolver==1.1.0
 MarkupSafe==1.1.1
 matplotlib==3.1.0
 mistune==0.8.4
-mkl-fft==1.0.12
+mkl-fft
 mkl-random==1.0.2
 mkl-service==2.0.2
 nb-conda==2.2.1
